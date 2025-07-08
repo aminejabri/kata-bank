@@ -1,12 +1,13 @@
-package io.bank.kata_bank.adapter.persistance;
+package io.bank.kata_bank.adapter.persistance.inmemory;
 
-import io.bank.kata_bank.domain.model.BankAccount;
-import io.bank.kata_bank.domain.model.BasicAccount;
-import io.bank.kata_bank.domain.model.CurrentAccount;
+import io.bank.kata_bank.domain.model.bank_account.BankAccount;
+import io.bank.kata_bank.domain.model.bank_account.BasicAccount;
+import io.bank.kata_bank.domain.model.bank_account.CurrentAccount;
 import io.bank.kata_bank.domain.port.repository.BankAccountRepository;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Repository;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BankAccountInMemoryRepository implements BankAccountRepository, InitializingBean {
 
-  private final Map<Long, BankAccount> accounts = new ConcurrentHashMap<>();
+  private final Map<UUID, BankAccount> accounts = new ConcurrentHashMap<>();
 
   @Override
-  public Optional<BankAccount> getAccountById(Long id) {
+  public Optional<BankAccount> getAccountById(UUID id) {
     return Optional.ofNullable(accounts.get(id));
   }
 
@@ -28,13 +29,16 @@ public class BankAccountInMemoryRepository implements BankAccountRepository, Ini
 
   @Override
   public void afterPropertiesSet() {
-    accounts.put(1L, CurrentAccount.builder()
-        .id(1L)
+    UUID firstAccountId = UUID.randomUUID();
+    accounts.put(firstAccountId, CurrentAccount.builder()
+        .id(firstAccountId)
         .balance(BigDecimal.ONE)
         .overdraftLimit(BigDecimal.valueOf(400))
         .build());
-    accounts.put(2L, BasicAccount.builder()
-        .id(2L)
+
+    UUID secondAccountId = UUID.randomUUID();
+    accounts.put(secondAccountId, BasicAccount.builder()
+        .id(secondAccountId)
         .balance(BigDecimal.ZERO)
         .build());
   }

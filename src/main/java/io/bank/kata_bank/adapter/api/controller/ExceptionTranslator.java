@@ -4,7 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import io.bank.kata_bank.domain.common.exception.EntityNotFoundException;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
-import io.bank.kata_bank.domain.common.exception.InvalidWithdrawalException;
+import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,8 @@ public class ExceptionTranslator {
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<ProblemDetail> handleEntityNotFound(EntityNotFoundException ex) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildProblemDetail(ex, HttpStatus.NOT_FOUND));
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(buildProblemDetail(ex, HttpStatus.NOT_FOUND));
   }
 
   @ExceptionHandler(InsufficientFundsException.class)
@@ -24,8 +25,8 @@ public class ExceptionTranslator {
     return ResponseEntity.status(BAD_REQUEST).body(buildProblemDetail(ex, BAD_REQUEST));
   }
 
-  @ExceptionHandler(InvalidWithdrawalException.class)
-  public ResponseEntity<ProblemDetail> handleInvalidWithdrawal(InvalidWithdrawalException ex) {
+  @ExceptionHandler(InvalidBankOperationException.class)
+  public ResponseEntity<ProblemDetail> handleInvalidWithdrawal(InvalidBankOperationException ex) {
     return ResponseEntity.status(BAD_REQUEST).body(buildProblemDetail(ex, BAD_REQUEST));
   }
 

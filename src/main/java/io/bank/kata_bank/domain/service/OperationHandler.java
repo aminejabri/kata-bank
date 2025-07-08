@@ -1,7 +1,7 @@
 package io.bank.kata_bank.domain.service;
 
-import io.bank.kata_bank.domain.model.BankOperation;
-import io.bank.kata_bank.domain.model.BankOperationType;
+import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
+import io.bank.kata_bank.domain.model.bank_operation.BankOperationType;
 
 public interface OperationHandler {
 

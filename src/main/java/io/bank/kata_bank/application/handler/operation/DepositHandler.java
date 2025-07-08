@@ -9,20 +9,18 @@ import io.bank.kata_bank.domain.service.OperationHandler;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
 @AllArgsConstructor
 @Slf4j
-public class WithdrawalHandler implements OperationHandler {
+public class DepositHandler implements OperationHandler {
 
   private final BankAccountRepository bankAccountRepository;
 
   @Override
   public boolean supports(BankOperationType type) {
-    return BankOperationType.WITHDRAWAL.equals(type);
+    return BankOperationType.DEPOSIT.equals(type);
   }
 
   @Override
@@ -31,11 +29,11 @@ public class WithdrawalHandler implements OperationHandler {
     bankAccountRepository.getAccountById(accountId)
         .ifPresentOrElse(
             account -> {
-              log.debug("Withdrawing {} from account with id {}", operation, accountId);
-              account.withdraw(operation.getAmount());
+              log.debug("Depositing {} into account with id {}", operation, accountId);
+              account.deposit(operation.getAmount());
               bankAccountRepository.save(account);
-              log.debug("Withdrawal of {} from account with id {} completed successfully",
-                  operation, accountId);
+              log.debug("Deposit of {} into account with id {} completed successfully", operation,
+                  accountId);
             },
             () -> {
               throw new EntityNotFoundException("Account with id " + accountId + " not found");

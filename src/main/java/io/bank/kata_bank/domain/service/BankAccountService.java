@@ -1,8 +1,9 @@
 package io.bank.kata_bank.domain.service;
 
-import io.bank.kata_bank.domain.model.BankAccount;
+import io.bank.kata_bank.domain.model.bank_account.BankAccount;
+import java.util.UUID;
 
 public interface BankAccountService {
 
-  BankAccount getBankAccount(Long id);
+  BankAccount getBankAccount(UUID id);
 }

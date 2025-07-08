@@ -1,6 +1,6 @@
 package io.bank.kata_bank.application.handler.operation;
 
-import io.bank.kata_bank.domain.model.BankOperation;
+import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import io.bank.kata_bank.domain.service.OperationHandler;
 import io.bank.kata_bank.domain.service.OperationHandlerFacade;
 import java.util.List;

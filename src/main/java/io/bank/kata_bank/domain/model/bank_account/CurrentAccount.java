@@ -1,12 +1,14 @@
-package io.bank.kata_bank.domain.model;
+package io.bank.kata_bank.domain.model.bank_account;
 
 import static lombok.AccessLevel.PRIVATE;
 
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
+import io.bank.kata_bank.domain.model.bank_operation.Withdrawal;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CurrentAccount implements BankAccount {
 
   @Include
-  private Long id;
+  private UUID id = UUID.randomUUID();
 
   private final AccountType type = AccountType.CURRENT;
 
@@ -37,9 +39,12 @@ public class CurrentAccount implements BankAccount {
 
   private final List<Withdrawal> withdrawals = new ArrayList<>();
 
-  public void withdraw(Withdrawal withdrawal) {
-    ensureSufficientFunds(withdrawal.amount());
-    performWithdrawal(withdrawal);
+  @Override
+  public void withdraw(BigDecimal amount) {
+    if (amount.compareTo(balance) > 0) {
+      throw new InsufficientFundsException(accountNumber, balance, amount);
+    }
+    balance = balance.subtract(amount);
   }
 
   private void ensureSufficientFunds(BigDecimal amount) {
@@ -48,8 +53,8 @@ public class CurrentAccount implements BankAccount {
     }
   }
 
-  private void performWithdrawal(Withdrawal withdrawal) {
-    balance = balance.subtract(withdrawal.amount());
-    withdrawals.add(withdrawal);
+  @Override
+  public void deposit(BigDecimal amount) {
+
   }
 }

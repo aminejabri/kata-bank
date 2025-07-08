@@ -1,4 +1,4 @@
-package io.bank.kata_bank.adapter.api.mapper;
+package io.bank.kata_bank.adapter.persistance.mongo.mapper;
 
 import io.bank.kata_bank.adapter.api.dto.BankAccountDto;
 import io.bank.kata_bank.domain.model.bank_account.BankAccount;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class BankAccountDtoMapperFacade implements BankAccountMapperFacade {
+public class BankAccountDocumentMapperFacade implements BankAccountMapperFacade {
 
-  private final List<? extends BankAccountDtoMapper<? extends BankAccount>> mappers;
+  private final List<? extends BankAccountDocumentMapper<? extends BankAccount>> mappers;
 
   public <T extends BankAccount> BankAccountDto fromEntity(T bankAccount) {
     return mappers.stream()
@@ -22,9 +22,9 @@ public class BankAccountDtoMapperFacade implements BankAccountMapperFacade {
   }
 
   @SuppressWarnings("unchecked")
-  private <T extends BankAccount> BankAccountDto castAndMap(BankAccountDtoMapper<?> rawMapper,
+  private <T extends BankAccount> BankAccountDto castAndMap(BankAccountDocumentMapper<?> rawMapper,
       T account) {
-    BankAccountDtoMapper<T> mapper = (BankAccountDtoMapper<T>) rawMapper;
+    BankAccountDocumentMapper<T> mapper = (BankAccountDocumentMapper<T>) rawMapper;
     return mapper.toDto(account);
   }
 
