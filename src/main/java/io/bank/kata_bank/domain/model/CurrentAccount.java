@@ -5,32 +5,37 @@ import static lombok.AccessLevel.PRIVATE;
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Builder
-@NoArgsConstructor(access = PRIVATE)
 @AllArgsConstructor(access = PRIVATE)
+@RequiredArgsConstructor(access = PRIVATE)
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @DomainEntity
-public class Account {
+public class CurrentAccount implements BankAccount {
 
   @Include
   private Long id;
 
-  private String accountNumber;
+  private final AccountType type = AccountType.CURRENT;
 
-  private Client client;
+  private final String accountNumber;
+
+  private final Client client;
+
+  private BigDecimal overdraftLimit;
 
   private BigDecimal balance;
 
-  private List<Withdrawal> withdrawals;
+  private final List<Withdrawal> withdrawals = new ArrayList<>();
 
   public void withdraw(Withdrawal withdrawal) {
     ensureSufficientFunds(withdrawal.amount());

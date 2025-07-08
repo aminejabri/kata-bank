@@ -1,15 +1,19 @@
 package io.bank.kata_bank.domain.model;
 
-import io.bank.kata_bank.domain.common.annotation.DDD.ValueObject;
+import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InvalidWithdrawalException;
 import java.math.BigDecimal;
 import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-@ValueObject
-public record Withdrawal(Long accountId, BigDecimal amount, String description, Instant createdAt) {
+@DomainEntity
+@AllArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@Builder(toBuilder = true)
+public class Withdrawal extends BankOperation {
 
-  public Withdrawal {
-    createdAt = Instant.now();
+  protected Withdrawal(Long accountId, BigDecimal amount, String description) {
+    var createdAt = Instant.now();
     if (accountId == null) {
       throw new InvalidWithdrawalException("Account is required for withdrawal");
     }
@@ -20,5 +24,6 @@ public record Withdrawal(Long accountId, BigDecimal amount, String description, 
       throw new InvalidWithdrawalException("Withdrawal amount must be greater than zero");
     }
   }
+
 }
 
