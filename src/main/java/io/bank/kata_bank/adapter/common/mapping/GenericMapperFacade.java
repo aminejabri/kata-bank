@@ -2,13 +2,23 @@ package io.bank.kata_bank.adapter.common.mapping;
 
 import io.bank.kata_bank.domain.model.bank_account.Supportable;
 import java.util.List;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class GenericMapperFacade<E extends Supportable<T>, D extends Supportable<T>, T> implements
     MapperFacade<E, D, T> {
 
-  private final List<? extends EntityMapper<T, D, E>> mappers;
+  private final List<? extends EntityMapper<E, D, T>> mappers;
+
+  public GenericMapperFacade(List<? extends EntityMapper<E, D, T>> mappers) {
+    if (mappers == null) {
+      throw new IllegalArgumentException("Mappers list cannot be null or empty");
+    }
+    for (Object mapper : mappers) {
+      if (!(mapper instanceof EntityMapper)) {
+        throw new IllegalArgumentException("Mappers list contains non-EntityMapper elements");
+      }
+    }
+    this.mappers = mappers;
+  }
 
   @Override
   public D fromEntity(E entity) {

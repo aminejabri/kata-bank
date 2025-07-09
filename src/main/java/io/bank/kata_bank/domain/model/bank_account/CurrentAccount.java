@@ -4,7 +4,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
-import io.bank.kata_bank.domain.model.bank_operation.Withdrawal;
+import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,8 @@ public class CurrentAccount implements BankAccount {
 
   private BigDecimal balance;
 
-  private final List<Withdrawal> withdrawals = new ArrayList<>();
+  private final List<BankOperation> operations = new ArrayList<>();
+
 
   @Override
   public void withdraw(BigDecimal amount) {

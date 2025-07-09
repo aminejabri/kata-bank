@@ -5,14 +5,17 @@ import io.bank.kata_bank.domain.model.bank_account.BasicAccount;
 import io.bank.kata_bank.domain.model.bank_account.CurrentAccount;
 import io.bank.kata_bank.domain.port.repository.BankAccountRepository;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBooleanProperty;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@ConditionalOnBooleanProperty(name = "kata.bank.adapter.persistance.mongo.enabled", havingValue = false, matchIfMissing = false)
 public class BankAccountInMemoryRepository implements BankAccountRepository, InitializingBean {
 
   private final Map<UUID, BankAccount> accounts = new ConcurrentHashMap<>();
@@ -20,6 +23,11 @@ public class BankAccountInMemoryRepository implements BankAccountRepository, Ini
   @Override
   public Optional<BankAccount> getAccountById(UUID id) {
     return Optional.ofNullable(accounts.get(id));
+  }
+
+  @Override
+  public List<BankAccount> getAll() {
+    return List.copyOf(accounts.values());
   }
 
   @Override

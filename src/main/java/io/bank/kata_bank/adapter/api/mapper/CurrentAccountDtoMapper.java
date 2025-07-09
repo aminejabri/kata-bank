@@ -1,6 +1,5 @@
 package io.bank.kata_bank.adapter.api.mapper;
 
-import io.bank.kata_bank.adapter.api.dto.BankAccountDto;
 import io.bank.kata_bank.domain.model.bank_account.AccountType;
 import io.bank.kata_bank.domain.model.bank_account.CurrentAccount;
 import org.mapstruct.Mapper;
@@ -12,8 +11,4 @@ public interface CurrentAccountDtoMapper extends BankAccountDtoMapper<CurrentAcc
   default boolean supports(AccountType accountType) {
     return AccountType.CURRENT.equals(accountType);
   }
-
-  BankAccountDto toDto(CurrentAccount bankAccount);
-
-  CurrentAccount toEntity(BankAccountDto bankAccountDto);
 }
