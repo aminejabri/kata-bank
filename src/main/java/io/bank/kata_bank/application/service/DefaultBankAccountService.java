@@ -25,4 +25,9 @@ public class DefaultBankAccountService implements BankAccountService {
   public List<BankAccount> getAllBankAccounts() {
     return bankAccountRepository.getAll();
   }
+
+  @Override
+  public void saveBankAccount(BankAccount bankAccount) {
+    bankAccountRepository.save(bankAccount);
+  }
 }

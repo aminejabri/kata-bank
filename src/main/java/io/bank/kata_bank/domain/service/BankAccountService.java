@@ -9,4 +9,6 @@ public interface BankAccountService {
   BankAccount getBankAccount(UUID id);
 
   List<BankAccount> getAllBankAccounts();
+
+  void saveBankAccount(BankAccount bankAccount);
 }
