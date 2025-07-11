@@ -9,9 +9,7 @@ import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import io.bank.kata_bank.domain.service.BankAccountService;
 import io.bank.kata_bank.domain.service.OperationHandlerDelegator;
 import jakarta.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,11 +43,9 @@ public class BankAccountController {
   }
 
   @GetMapping("/{accountId}/monthly-statements")
-  public AccountStatementDto getAccountDetails(@PathVariable UUID accountId, @RequestParam(required = false) LocalDate from) {
+  public AccountStatementDto getMonthlyStatement(@PathVariable UUID accountId) {
     BankAccount bankAccount = withdrawService.getBankAccount(accountId);
-    List<BankOperation> bankOperations = Optional.ofNullable(from)
-        .map(bankAccount::monthlyOperations)
-        .orElse(bankAccount.monthlyOperations());
+    List<BankOperation> bankOperations = bankAccount.monthlyOperations();
     return new AccountStatementDto(
         bankAccount.getAccountNumber(),
         bankAccount.getAccountHolder(),

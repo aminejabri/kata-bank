@@ -9,8 +9,6 @@ import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,20 +58,6 @@ class BasicAccountTest {
     BasicAccount account = buildAccountWithOperations(Instant.now());
 
     List<BankOperation> result = account.monthlyOperations();
-
-    assertThat(result).hasSize(2);
-    assertThat(result.getFirst().amount()).isEqualTo(BigDecimal.valueOf(1));
-    assertThat(result.getFirst().type()).isEqualTo(DEPOSIT);
-    assertThat(result.getLast().amount()).isEqualTo(BigDecimal.valueOf(29));
-    assertThat(result.getLast().type()).isEqualTo(WITHDRAWAL);
-  }
-
-  @Test
-  void monthlyOperations_specifiedDate_shouldReturnOperationsFor30DaysBeforeSpecifiedDate() {
-    Instant referenceInstant = LocalDate.of(2023, 10, 1).atStartOfDay().toInstant(ZoneOffset.UTC);
-    BasicAccount account = buildAccountWithOperations(referenceInstant);
-
-    List<BankOperation> result = account.monthlyOperations(LocalDate.of(2023, 10, 1));
 
     assertThat(result).hasSize(2);
     assertThat(result.getFirst().amount()).isEqualTo(BigDecimal.valueOf(1));
