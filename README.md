@@ -51,6 +51,10 @@ This design choice here was intentional to keep the kata lightweight and readabl
    `java -jar target/kata-bank-<version>.jar`
 4. Run tests (optional):  
    `mvn test`
+5. Use the provided Postman collection to explore the API:  
+   The file
+   `kata-bank.postman_collection.json` is available in the
+   `postman/` folder.
 
 ## API Endpoints
 
