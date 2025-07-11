@@ -2,10 +2,10 @@ package io.bank.kata_bank.application.handler.operation;
 
 import io.bank.kata_bank.domain.common.exception.EntityNotFoundException;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
-import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperationType;
 import io.bank.kata_bank.domain.port.repository.BankAccountRepository;
 import io.bank.kata_bank.domain.service.OperationHandler;
+import java.math.BigDecimal;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +26,14 @@ public class WithdrawalHandler implements OperationHandler {
   }
 
   @Override
-  public void handle(BankOperation operation) throws InsufficientFundsException {
-    UUID accountId = operation.getBankAccount().getId();
+  public void handle(UUID accountId, BigDecimal amount) throws InsufficientFundsException {
     bankAccountRepository.getAccountById(accountId)
         .ifPresentOrElse(
             account -> {
-              log.debug("Withdrawing {} from account with id {}", operation, accountId);
-              account.withdraw(operation.getAmount());
+              log.debug("Withdrawing {} from account with id {}", amount, accountId);
+              account.withdraw(amount);
               bankAccountRepository.save(account);
-              log.debug("Withdrawal of {} from account with id {} completed successfully",
-                  operation, accountId);
+              log.debug("Withdrawal of {} from account with id {} completed successfully", amount, accountId);
             },
             () -> {
               throw new EntityNotFoundException("Account with id " + accountId + " not found");

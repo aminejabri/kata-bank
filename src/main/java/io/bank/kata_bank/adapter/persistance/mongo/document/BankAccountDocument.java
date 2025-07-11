@@ -26,7 +26,10 @@ public class BankAccountDocument implements Supportable<AccountType> {
   private String accountNumber;
 
   @NonNull
-  private AccountType accountType;
+  private AccountType type;
+
+  @NonNull
+  private String accountHolder;
 
   private BigDecimal balance;
 
@@ -35,8 +38,7 @@ public class BankAccountDocument implements Supportable<AccountType> {
   @Version
   private Integer version;
 
-  @Override
-  public AccountType getType() {
-    return accountType;
-  }
+  private BigDecimal overdraftLimit;
+
+  private BigDecimal savingsCap;
 }

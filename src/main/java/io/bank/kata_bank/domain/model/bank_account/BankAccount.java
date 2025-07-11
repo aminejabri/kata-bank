@@ -1,25 +1,51 @@
 package io.bank.kata_bank.domain.model.bank_account;
 
+import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Include;
+import lombok.Getter;
 
-public interface BankAccount extends Supportable<AccountType> {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+public abstract class BankAccount implements Supportable<AccountType> {
 
-  UUID getId();
+  @Include
+  protected UUID id;
 
-  AccountType getType();
+  protected final AccountType type;
 
-  String getAccountNumber();
+  protected final String accountNumber;
 
-  Client getClient();
+  protected final String accountHolder;
 
-  BigDecimal getBalance();
+  protected BigDecimal balance;
 
-  List<BankOperation> getOperations();
+  protected Long version;
 
-  void withdraw(BigDecimal amount);
+  protected final List<BankOperation> operations;
 
-  void deposit(BigDecimal amount);
+  protected BankAccount(UUID id, AccountType type, String accountNumber, String accountHolder, BigDecimal balance, List<BankOperation> operations,
+      Long version) {
+    this.id = id;
+    this.type = type;
+    this.accountNumber = accountNumber;
+    this.accountHolder = accountHolder;
+    this.balance = balance;
+    this.operations = operations;
+    this.version = version;
+  }
+
+  public abstract void withdraw(BigDecimal amount);
+
+  public abstract void deposit(BigDecimal amount);
+
+  protected void checkPositiveAmount(BigDecimal amount) {
+    if (amount.signum() <= 0) {
+      throw new InvalidBankOperationException("Operation amount must be positive");
+    }
+  }
 }

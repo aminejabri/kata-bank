@@ -1,41 +1,52 @@
 package io.bank.kata_bank.adapter.api.controller;
 
 import io.bank.kata_bank.adapter.api.dto.BankAccountDto;
-import io.bank.kata_bank.adapter.api.mapper.BankAccountMapperFacade;
+import io.bank.kata_bank.adapter.api.dto.BankOperationDto;
+import io.bank.kata_bank.adapter.api.mapper.account.BankAccountMapperDelegator;
 import io.bank.kata_bank.domain.service.BankAccountService;
+import io.bank.kata_bank.domain.service.OperationHandlerDelegator;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/accounts")
 @AllArgsConstructor
+@Validated
 public class BankAccountController {
 
   private final BankAccountService withdrawService;
-  @Qualifier("dtoMapperFacade")
-  private final BankAccountMapperFacade bankAccountMapperFacade;
+
+  @Qualifier("accountDtoMapperDelegator")
+  private final BankAccountMapperDelegator bankAccountMapperDelegator;
+
+  private final OperationHandlerDelegator operationHandler;
+
 
   @GetMapping("/{accountId}")
   public BankAccountDto getAccountDetails(@PathVariable UUID accountId) {
-    return bankAccountMapperFacade.fromEntity(withdrawService.getBankAccount(accountId));
+    return bankAccountMapperDelegator.fromDomain(withdrawService.getBankAccount(accountId));
   }
 
   @GetMapping
   public List<BankAccountDto> getAccountDetails() {
     return withdrawService.getAllBankAccounts()
         .stream()
-        .map(bankAccountMapperFacade::fromEntity)
+        .map(bankAccountMapperDelegator::fromDomain)
         .toList();
   }
 
-//  @PostMapping("/{accountId}/withdraw")
-//  public void withdraw(@RequestBody Withdrawal withdrawal) {
-//    operationHandler.handleOperation(withdrawal);
-//  }
+  @PostMapping("/{accountId}/operations")
+  public void withdraw(@PathVariable UUID accountId, @Valid @RequestBody BankOperationDto operation) {
+    operationHandler.handleOperation(accountId, operation.type(), operation.amount());
+  }
 }
