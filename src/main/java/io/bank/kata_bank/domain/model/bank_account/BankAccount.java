@@ -1,8 +1,8 @@
 package io.bank.kata_bank.domain.model.bank_account;
 
 import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
+import io.bank.kata_bank.domain.common.mappers.Supportable;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
-import io.bank.kata_bank.domain.model.mappers.Supportable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -51,9 +51,7 @@ public abstract class BankAccount implements Supportable<AccountType> {
 
   public List<BankOperation> monthlyOperations(LocalDate localDate) {
     return operations.stream()
-        .filter(operation -> Instant.now()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate()
+        .filter(operation -> operation.timestamp().atZone(ZoneId.systemDefault()).toLocalDate()
             .isAfter(localDate.minusDays(30)))
         .sorted(Comparator.comparing(BankOperation::timestamp).reversed())
         .toList();

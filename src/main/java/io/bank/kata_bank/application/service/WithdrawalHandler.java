@@ -1,4 +1,4 @@
-package io.bank.kata_bank.application.handler.operation;
+package io.bank.kata_bank.application.service;
 
 import io.bank.kata_bank.domain.common.exception.EntityNotFoundException;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
@@ -9,18 +9,21 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+
 @Service
+@Primary
 @AllArgsConstructor
 @Slf4j
-public class DepositHandler implements OperationHandler {
+public class WithdrawalHandler implements OperationHandler {
 
   private final BankAccountRepository bankAccountRepository;
 
   @Override
   public boolean supports(BankOperationType type) {
-    return BankOperationType.DEPOSIT.equals(type);
+    return BankOperationType.WITHDRAWAL.equals(type);
   }
 
   @Override
@@ -28,11 +31,10 @@ public class DepositHandler implements OperationHandler {
     bankAccountRepository.getAccountById(accountId)
         .ifPresentOrElse(
             account -> {
-              log.debug("Depositing {} into account with id {}", amount, accountId);
-              account.deposit(amount);
+              log.debug("Withdrawing {} from account with id {}", amount, accountId);
+              account.withdraw(amount);
               bankAccountRepository.save(account);
-              log.debug("Deposit of {} into account with id {} completed successfully", amount,
-                  accountId);
+              log.debug("Withdrawal of {} from account with id {} completed successfully", amount, accountId);
             },
             () -> {
               throw new EntityNotFoundException("Account with id " + accountId + " not found");

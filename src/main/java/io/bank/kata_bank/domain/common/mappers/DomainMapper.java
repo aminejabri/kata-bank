@@ -1,4 +1,4 @@
-package io.bank.kata_bank.adapter.common.mapping;
+package io.bank.kata_bank.domain.common.mappers;
 
 public interface DomainMapper<E, D, T> {
 

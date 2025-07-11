@@ -1,7 +1,7 @@
 package io.bank.kata_bank.adapter.api.dto;
 
 import io.bank.kata_bank.domain.model.bank_operation.BankOperationType;
-import io.bank.kata_bank.domain.model.mappers.Supportable;
+import io.bank.kata_bank.domain.common.mappers.Supportable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;

@@ -4,6 +4,7 @@ import static io.bank.kata_bank.domain.model.bank_account.AccountType.BASIC;
 import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.DEPOSIT;
 import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.WITHDRAWAL;
 
+import io.bank.kata_bank.domain.common.annotation.DDD.AggregateRoot;
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
@@ -14,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 @DomainEntity
 @EqualsAndHashCode(callSuper = true)
+@AggregateRoot
 public class BasicAccount extends BankAccount {
 
   public BasicAccount(UUID id, String accountNumber, String accountHolder, BigDecimal balance, List<BankOperation> operations, Long version) {

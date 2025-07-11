@@ -1,4 +1,4 @@
-package io.bank.kata_bank.application.handler.operation;
+package io.bank.kata_bank.application.service;
 
 import io.bank.kata_bank.domain.common.exception.UnsupportedBankOperation;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperationType;

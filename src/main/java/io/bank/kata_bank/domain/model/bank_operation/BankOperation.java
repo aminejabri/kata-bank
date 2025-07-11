@@ -9,7 +9,7 @@ import java.time.Instant;
 public record BankOperation(
     Instant timestamp,
     BigDecimal amount,
-    BankOperationType operationType) {
+    BankOperationType type) {
 
   public BankOperation(BigDecimal amount, BankOperationType operationType) {
     this(Instant.now(), amount, operationType);
@@ -22,7 +22,7 @@ public record BankOperation(
     if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
       throw new InvalidBankOperationException("Amount must be positive and cannot be null");
     }
-    if (operationType == null) {
+    if (type == null) {
       throw new InvalidBankOperationException("Operation type cannot be null");
     }
   }
