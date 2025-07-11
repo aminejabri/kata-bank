@@ -1,6 +1,6 @@
 package io.bank.kata_bank.adapter.common.mapping;
 
-import io.bank.kata_bank.domain.model.bank_account.Supportable;
+import io.bank.kata_bank.domain.model.mappers.Supportable;
 import java.util.List;
 
 public class GenericMapperDelegator<E extends Supportable<T>, D extends Supportable<T>, T> implements

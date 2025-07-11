@@ -2,7 +2,12 @@ package io.bank.kata_bank.domain.model.bank_account;
 
 import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
+import io.bank.kata_bank.domain.model.mappers.Supportable;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
@@ -37,6 +42,21 @@ public abstract class BankAccount implements Supportable<AccountType> {
     this.balance = balance;
     this.operations = operations;
     this.version = version;
+  }
+
+  public List<BankOperation> monthlyOperations() {
+    // zone id must be set to user's local time zone in real applications
+    return monthlyOperations(LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()));
+  }
+
+  public List<BankOperation> monthlyOperations(LocalDate localDate) {
+    return operations.stream()
+        .filter(operation -> Instant.now()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+            .isAfter(localDate.minusDays(30)))
+        .sorted(Comparator.comparing(BankOperation::timestamp).reversed())
+        .toList();
   }
 
   public abstract void withdraw(BigDecimal amount);

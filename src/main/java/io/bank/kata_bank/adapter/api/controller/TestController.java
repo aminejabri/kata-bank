@@ -62,8 +62,8 @@ public class TestController {
         BigDecimal.ZERO,
         new ArrayList<>(),
         null,
-        // random 0 to 1000 with gap of 100
-        BigDecimal.valueOf(new Random().nextInt(11) * 100d)
+        // random 10000 to 100000 with gap of 1000
+        BigDecimal.valueOf(new Random().nextInt(91) * 1000 + 10000d)
     ));
     accounts.forEach(bankAccountService::saveBankAccount);
     return accounts.stream()

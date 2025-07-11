@@ -1,9 +1,12 @@
 package io.bank.kata_bank.domain.model.bank_account;
 
 import static io.bank.kata_bank.domain.model.bank_account.AccountType.SAVING;
+import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.DEPOSIT;
+import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.WITHDRAWAL;
 
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
+import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,6 +40,7 @@ public class SavingAccount extends BankAccount {
   public void withdraw(BigDecimal amount) {
     checkPositiveAmount(amount);
     ensureSufficientFunds(amount);
+    operations.add(new BankOperation(amount, WITHDRAWAL));
     balance = balance.subtract(amount);
   }
 
@@ -50,8 +54,9 @@ public class SavingAccount extends BankAccount {
   public void deposit(BigDecimal amount) {
     checkPositiveAmount(amount);
     if (balance.add(amount).compareTo(savingsCap) > 0) {
-      throw new IllegalArgumentException("Deposit exceeds savings cap");
+      throw new InvalidBankOperationException("Deposit exceeds savings cap");
     }
+    operations.add(new BankOperation(amount, DEPOSIT));
     balance = balance.add(amount);
   }
 }

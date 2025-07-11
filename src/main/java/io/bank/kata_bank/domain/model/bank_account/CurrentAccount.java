@@ -1,6 +1,8 @@
 package io.bank.kata_bank.domain.model.bank_account;
 
 import static io.bank.kata_bank.domain.model.bank_account.AccountType.CURRENT;
+import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.DEPOSIT;
+import static io.bank.kata_bank.domain.model.bank_operation.BankOperationType.WITHDRAWAL;
 
 import io.bank.kata_bank.domain.common.annotation.DDD.DomainEntity;
 import io.bank.kata_bank.domain.common.exception.InsufficientFundsException;
@@ -37,6 +39,7 @@ public class CurrentAccount extends BankAccount {
   public void withdraw(BigDecimal amount) {
     checkPositiveAmount(amount);
     ensureSufficientFunds(amount);
+    operations.add(new BankOperation(amount, WITHDRAWAL));
     balance = balance.subtract(amount);
   }
 
@@ -49,6 +52,7 @@ public class CurrentAccount extends BankAccount {
   @Override
   public void deposit(BigDecimal amount) {
     checkPositiveAmount(amount);
+    operations.add(new BankOperation(amount, DEPOSIT));
     balance = balance.add(amount);
   }
 }

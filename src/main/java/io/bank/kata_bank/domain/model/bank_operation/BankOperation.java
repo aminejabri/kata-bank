@@ -2,31 +2,28 @@ package io.bank.kata_bank.domain.model.bank_operation;
 
 import io.bank.kata_bank.domain.common.annotation.DDD.ValueObject;
 import io.bank.kata_bank.domain.common.exception.InvalidBankOperationException;
-import io.bank.kata_bank.domain.model.bank_account.Supportable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import lombok.Getter;
 
 @ValueObject
-@Getter
-public abstract class BankOperation implements Supportable<BankOperationType> {
+public record BankOperation(
+    Instant timestamp,
+    BigDecimal amount,
+    BankOperationType operationType) {
 
-  private final Instant timestamp = Instant.now();
-  private final BigDecimal amount;
-  protected final BankOperationType operationType;
+  public BankOperation(BigDecimal amount, BankOperationType operationType) {
+    this(Instant.now(), amount, operationType);
+  }
 
-  protected BankOperation(BigDecimal amount, BankOperationType operationType) {
+  public BankOperation {
+    if (timestamp == null) {
+      throw new InvalidBankOperationException("Timestamp cannot be null");
+    }
+    if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+      throw new InvalidBankOperationException("Amount must be positive and cannot be null");
+    }
     if (operationType == null) {
       throw new InvalidBankOperationException("Operation type cannot be null");
     }
-    if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-      throw new InvalidBankOperationException("Amount must be positive");
-    }
-    this.operationType = operationType;
-    this.amount = amount;
-  }
-
-  public BankOperationType getType() {
-    return operationType;
   }
 }

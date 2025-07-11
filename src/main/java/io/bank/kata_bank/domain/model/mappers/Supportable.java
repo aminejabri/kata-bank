@@ -1,4 +1,4 @@
-package io.bank.kata_bank.domain.model.bank_account;
+package io.bank.kata_bank.domain.model.mappers;
 
 public interface Supportable<T> {
 

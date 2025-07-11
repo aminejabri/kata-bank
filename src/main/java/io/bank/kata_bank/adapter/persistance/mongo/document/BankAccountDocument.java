@@ -2,8 +2,8 @@ package io.bank.kata_bank.adapter.persistance.mongo.document;
 
 import com.mongodb.lang.NonNull;
 import io.bank.kata_bank.domain.model.bank_account.AccountType;
-import io.bank.kata_bank.domain.model.bank_account.Supportable;
 import io.bank.kata_bank.domain.model.bank_operation.BankOperation;
+import io.bank.kata_bank.domain.model.mappers.Supportable;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.Builder;
