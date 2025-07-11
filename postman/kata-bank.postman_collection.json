@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "8533644b-114c-4281-8fd8-9ec020fa3ab1",
+		"name": "kata-bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3860916"
+	},
+	"item": [
+		{
+			"name": "populate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/test/accounts/populate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"test",
+						"accounts",
+						"populate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountId\": 1,\r\n  \"description\": \"description_7a978fccb8aa\",\r\n  \"amount\": 0.01\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/accounts/{{accountId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"accounts",
+						"{{accountId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountId\": 1,\r\n  \"description\": \"description_7a978fccb8aa\",\r\n  \"amount\": 0.01\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/accounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "operation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\":76000.0,\r\n    \"type\":\"DEPOSIT\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/accounts/{{accountId}}/operations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"accounts",
+						"{{accountId}}",
+						"operations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "statments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountId\": 1,\r\n  \"description\": \"description_7a978fccb8aa\",\r\n  \"amount\": 0.01\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/accounts/{{accountId}}/monthly-statements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"accounts",
+						"{{accountId}}",
+						"monthly-statements"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
