@@ -44,8 +44,8 @@ public class TestController {
         BigDecimal.ZERO,
         new ArrayList<>(),
         null,
-        // random 0 to 1000 with gap of 100
-        BigDecimal.valueOf(new Random().nextInt(11) * 100d)
+        // random 100 to 1000 with gap of 100
+        BigDecimal.valueOf(new Random().nextInt(10) * 100 + 100d)
     ));
     accounts.add(new BasicAccount(
         UUID.randomUUID(),

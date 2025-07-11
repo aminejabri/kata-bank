@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public abstract class BankAccount implements Supportable<AccountType> {
     this.accountNumber = accountNumber;
     this.accountHolder = accountHolder;
     this.balance = balance;
-    this.operations = operations;
+    this.operations = operations == null ? new ArrayList<>() : operations;
     this.version = version;
   }
 

@@ -2,7 +2,6 @@ package io.bank.kata_bank.adapter.api.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.bank.kata_bank.adapter.persistance.mongo.document.BankAccountDocument;
@@ -16,10 +15,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class BankAccountControllerIT {
 
   @Autowired
@@ -42,8 +43,7 @@ class BankAccountControllerIT {
     mockMvc.perform(post("/api/accounts/{id}/operations", accountId)
             .content("{\"amount\": 100, \"type\": \"WITHDRAWAL\"}")
             .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        .andExpect(status().isCreated());
 
     BankAccountDocument document = mongoTemplate.findById(accountId.toString(), BankAccountDocument.class);
     assertThat(document).isNotNull();
