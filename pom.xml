@@ -11,7 +11,7 @@
   </parent>
   <groupId>io.bank</groupId>
   <artifactId>kata-bank</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${project.version}</version>
   <name>kata-bank</name>
   <description>A banking application that manages current accounts and savings accounts, supporting
     deposits, withdrawals (with optional overdraft), deposit limits for savings, and the generation
@@ -24,6 +24,7 @@
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     <de.flapdoodle.embed.mongo.version>4.16.2</de.flapdoodle.embed.mongo.version>
     <de.flapdoodle.embed.mongo.spring30x.version>4.11.0</de.flapdoodle.embed.mongo.spring30x.version>
+    <project.version>0.0.1-SNAPSHOT</project.version>
   </properties>
   <dependencies>
 

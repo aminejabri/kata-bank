@@ -6,6 +6,21 @@ Kata-bank project: simple bank account management with operations.
 
 This project implements a bank account with operations such as deposits, withdrawals, and balance calculation.
 
+## Design Decisions
+
+For simplicity, I embedded operations directly in the
+`Account` document to focus on core logic during the kata.
+
+In a real-world scenario, I would separate
+`Account` and
+`Operation` into distinct entities:
+
+- In a microservices architecture, each would be handled by its own service, with consistency managed through reliable communication patterns such as the outbox pattern or event-driven mechanisms. Additionally, security measures and retry mechanisms would be implemented to ensure robustness and data integrity.
+
+- In a monolith, I’d use a relational database with proper normalization and ACID transactions to guarantee data consistency and integrity.
+
+This design choice here was intentional to keep the kata lightweight and readable.
+
 ## Main Features
 
 - Adding bank operations (deposits, withdrawals)
@@ -37,12 +52,20 @@ This project implements a bank account with operations such as deposits, withdra
 
 ## API Endpoints
 
-| Method | Endpoint                                              | Description                                                | Request Body                           | Response                    |
-|--------|-------------------------------------------------------|------------------------------------------------------------|----------------------------------------|-----------------------------|
-| GET    | `/api/accounts/{id}`                                  | Retrieve account details by account ID                     | —                                      | Account object              |
-| POST   | `/api/accounts/{id}/operations`                       | Add a new operation (DEPOSIT or WITHDRAWAL) to the account | `{ "type": "DEPOSIT", "amount": 100 }` | Created operation object    |
-| GET    | `/api/accounts/{id}/`                                 | Retrieve all operations for the account                    | —                                      | List of operation objects   |
-| GET    | `/api/accounts/{id}/monthly-statements?month=YYYY-MM` | Retrieve operations filtered by month                      | —                                      | Filtered list of operations |
+| Method | Endpoint                                | Description                                                | Request Body                           | Response                    |
+|--------|-----------------------------------------|------------------------------------------------------------|----------------------------------------|-----------------------------|
+| GET    | `/api/accounts`                         | Retrieve accounts                                          | —                                      | List of Accounts            |
+| GET    | `/api/accounts/{id}`                    | Retrieve account details by account ID                     | —                                      | Account object              |
+| POST   | `/api/accounts/{id}/operations`         | Add a new operation (DEPOSIT or WITHDRAWAL) to the account | `{ "type": "DEPOSIT", "amount": 100 }` | —                           |
+| GET    | `/api/accounts/{id}/monthly-statements` | Retrieve operations from last month                        | —                                      | Filtered list of operations |
+
+## Test Data Population Endpoint
+
+*POST*
+`/api/test/accounts/populate`
+ 
+This endpoint populates the database with random bank accounts for testing purposes only.  
+It resets existing data and should be disabled in production environments.
 
 ## Author
 
