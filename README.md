@@ -2,6 +2,8 @@
 
 Kata-bank project: simple bank account management with operations.
 
+This project allows you to populate the database, then retrieve the account IDs (from the populate endpoint response or the account list endpoint), add operations (via the POST operation endpoint), and finally retrieve the monthly statements of a given account.
+
 ## Description
 
 This project implements a bank account with operations such as deposits, withdrawals, and balance calculation.
@@ -25,7 +27,7 @@ This design choice here was intentional to keep the kata lightweight and readabl
 
 - Adding bank operations (deposits, withdrawals)
 - Calculating monthly operations
-- Unit and integration tests
+- Includes one unit test and one integration test as examples
 - Using embedded MongoDB for tests
 
 ## Technologies
@@ -63,7 +65,7 @@ This design choice here was intentional to keep the kata lightweight and readabl
 
 *POST*
 `/api/test/accounts/populate`
- 
+
 This endpoint populates the database with random bank accounts for testing purposes only.  
 It resets existing data and should be disabled in production environments.
 
